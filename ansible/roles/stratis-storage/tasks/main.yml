@@ -12,3 +12,9 @@
 
 - name: create an FS
   command: stratis filesystem create stratis_lab data
+
+- name: create /data
+  file: dest=/data state=directory
+
+- name: create a mountpoint
+  mount: path=/data src=/stratis/stratis_lab/data fstype=xfs state=mounted
