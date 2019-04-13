@@ -1,0 +1,5 @@
+---
+- hosts: fedora-stratisd
+  become: yes
+  roles:
+    - stratis-storage

@@ -1,0 +1,14 @@
+- name: install stratisd
+  yum: name=stratisd
+
+- name: install stratis-cli
+  yum: name=stratis-cli
+
+- name: enable and start stratisd service
+  service: name=stratisd state=started enabled=yes
+
+- name: create a pool
+  command: stratis pool create stratis_lab /dev/vdb
+
+- name: create an FS
+  command: stratis filesystem create stratis_lab data

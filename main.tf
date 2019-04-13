@@ -1,3 +1,7 @@
+variable "insecure_no_strict_host_key_checking" {
+  default = true
+}
+
 provider "libvirt" {
   uri = "qemu:///system"
 }
@@ -83,5 +87,27 @@ resource "libvirt_domain" "fedora_stratisd" {
     type        = "spice"
     listen_type = "address"
     autoport    = true
+  }
+
+  connection {
+    user = "tfuser"
+  }
+
+  provisioner "ansible" {
+    plays {
+      playbook = {
+        file_path = "${path.module}/ansible/playbooks/create-stratis-volume.yml"
+        roles_path = [
+            "${path.module}/ansible/roles"
+        ]
+      }
+      hosts = ["fedora-stratisd"]
+      extra_vars = {
+        ansible_python_interpreter = "python3"
+      }
+    }
+    ansible_ssh_settings {
+      insecure_no_strict_host_key_checking = "${var.insecure_no_strict_host_key_checking}"
+    }
   }
 }
