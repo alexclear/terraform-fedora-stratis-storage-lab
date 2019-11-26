@@ -91,11 +91,12 @@ resource "libvirt_domain" "fedora_stratisd" {
 
   connection {
     user = "tfuser"
+    host = element(element(self.*.network_interface.0.addresses, 0), 0)
   }
 
   provisioner "ansible" {
     plays {
-      playbook = {
+      playbook {
         file_path = "${path.module}/ansible/playbooks/create-stratis-volume.yml"
         roles_path = [
             "${path.module}/ansible/roles"
@@ -110,4 +111,8 @@ resource "libvirt_domain" "fedora_stratisd" {
       insecure_no_strict_host_key_checking = "${var.insecure_no_strict_host_key_checking}"
     }
   }
+}
+
+output "ipv4" {
+  value = element(element(libvirt_domain.fedora_stratisd.*.network_interface.0.addresses, 0), 0)
 }
