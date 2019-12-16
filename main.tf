@@ -10,7 +10,7 @@ provider "libvirt" {
 resource "libvirt_volume" "fedora_stratisd" {
   name   = "fedora-stratisd-orig.img"
   pool   = "default"
-  source = "https://mirror.yandex.ru/fedora/linux/releases/29/Cloud/x86_64/images/Fedora-Cloud-Base-29-1.2.x86_64.qcow2"
+  source = "https://mirror.yandex.ru/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
   format = "qcow2"
 }
 
